@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Daily Cat Meow</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="card">
+        <header class="card__header">
+          <h1>Daily Cat Meow</h1>
+          <p>Fresh cat photo every day. Press <strong>space</strong> to hear a meow.</p>
+        </header>
+        <div class="cat-stage" aria-live="polite">
+          <img id="catImage" class="cat" alt="A daily cat" />
+        </div>
+        <footer class="card__footer">
+          <span id="dateLabel"></span>
+        </footer>
+      </section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
