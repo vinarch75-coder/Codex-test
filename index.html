@@ -3,21 +3,63 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Daily Cat Meow</title>
+    <title>Addition Adventure</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="page">
       <section class="card">
         <header class="card__header">
-          <h1>Daily Cat Meow</h1>
-          <p>Fresh cat photo every day. Press <strong>space</strong> to hear a meow.</p>
+          <p class="tag">Math Quest for Kids</p>
+          <h1>Addition Adventure</h1>
+          <p>
+            Help Captain Plus collect stars by solving addition puzzles! Choose the
+            right answer to earn points.
+          </p>
         </header>
-        <div class="cat-stage" aria-live="polite">
-          <img id="catImage" class="cat" alt="A daily cat" />
-        </div>
+
+        <section class="game">
+          <div class="mascot" aria-hidden="true">🚀</div>
+          <div class="question-box" aria-live="polite">
+            <span id="firstNumber">5</span>
+            <span class="operator">+</span>
+            <span id="secondNumber">3</span>
+            <span class="operator">=</span>
+            <span class="question-mark">?</span>
+          </div>
+
+          <div class="answer-grid" id="answerGrid" role="list"></div>
+
+          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
+
+          <div class="controls">
+            <label class="control">
+              Difficulty
+              <select id="difficultySelect">
+                <option value="easy">Easy (0-10)</option>
+                <option value="medium" selected>Medium (0-20)</option>
+                <option value="hard">Hard (0-50)</option>
+              </select>
+            </label>
+            <button id="newQuestion" class="secondary">New Puzzle</button>
+          </div>
+        </section>
+
         <footer class="card__footer">
-          <span id="dateLabel"></span>
+          <div class="scoreboard">
+            <div>
+              <span class="label">Score</span>
+              <span id="score">0</span>
+            </div>
+            <div>
+              <span class="label">Streak</span>
+              <span id="streak">0</span>
+            </div>
+            <div>
+              <span class="label">Stars</span>
+              <span id="stars">⭐️⭐️⭐️</span>
+            </div>
+          </div>
         </footer>
       </section>
     </main>
