@@ -4,31 +4,84 @@ const answerGrid = document.getElementById("answerGrid");
 const feedback = document.getElementById("feedback");
 const scoreValue = document.getElementById("score");
 const streakValue = document.getElementById("streak");
-const starsValue = document.getElementById("stars");
+const petalsValue = document.getElementById("petals");
 const newQuestionButton = document.getElementById("newQuestion");
 const difficultySelect = document.getElementById("difficultySelect");
+const levelName = document.getElementById("levelName");
+const levelProgressFill = document.getElementById("levelProgressFill");
+const levelProgressText = document.getElementById("levelProgressText");
+const levelPrize = document.getElementById("levelPrize");
 
 const difficultyRanges = {
-  easy: 10,
-  medium: 20,
-  hard: 50,
+  easy: { min: 2, max: 12 },
+  medium: { min: 4, max: 18 },
+  hard: { min: 6, max: 25 },
 };
+
+const levels = [
+  { name: "Seedling Starter", threshold: 0, prize: "Sticker Pack" },
+  { name: "Petal Pathfinder", threshold: 60, prize: "Glitter Gel Pen" },
+  { name: "Bloom Builder", threshold: 140, prize: "Floral Notebook" },
+  { name: "Garden Star", threshold: 220, prize: "Flower Crown Kit" },
+  {
+    name: "Queen of the Garden",
+    threshold: 320,
+    prize: "Big Prize: VIP Garden Party",
+  },
+];
 
 let score = 0;
 let streak = 0;
 let correctAnswer = 0;
 
-const pickNumber = (max) => Math.floor(Math.random() * (max + 1));
+const pickNumber = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
 
-const setStars = () => {
-  const stars = Math.min(3, Math.max(1, Math.floor(streak / 3) + 1));
-  starsValue.textContent = "⭐️".repeat(stars);
+const setPetals = () => {
+  const petals = Math.min(4, Math.max(1, Math.floor(streak / 3) + 1));
+  petalsValue.textContent = "🌺".repeat(petals);
+};
+
+const findLevelIndex = () => {
+  for (let index = levels.length - 1; index >= 0; index -= 1) {
+    if (score >= levels[index].threshold) {
+      return index;
+    }
+  }
+  return 0;
+};
+
+const updateLevelProgress = () => {
+  const levelIndex = findLevelIndex();
+  const currentLevel = levels[levelIndex];
+  const nextLevel = levels[levelIndex + 1];
+
+  levelName.textContent = currentLevel.name;
+  levelPrize.textContent = `Prize: ${currentLevel.prize}`;
+
+  if (!nextLevel) {
+    levelProgressFill.style.width = "100%";
+    levelProgressText.textContent =
+      "You reached the top level! Celebrate your big prize!";
+    return;
+  }
+
+  const levelSpan = nextLevel.threshold - currentLevel.threshold;
+  const progress = Math.max(
+    0,
+    Math.min(levelSpan, score - currentLevel.threshold)
+  );
+  const progressPercent = Math.round((progress / levelSpan) * 100);
+  levelProgressFill.style.width = `${progressPercent}%`;
+  const remaining = nextLevel.threshold - score;
+  levelProgressText.textContent = `${progress} / ${levelSpan} points to reach ${nextLevel.name} (${remaining} to go)`;
 };
 
 const updateScoreboard = () => {
   scoreValue.textContent = score;
   streakValue.textContent = streak;
-  setStars();
+  setPetals();
+  updateLevelProgress();
 };
 
 const clearFeedback = () => {
@@ -53,7 +106,7 @@ const createAnswerButton = (value) => {
 const buildAnswers = (answer, max) => {
   const answers = new Set([answer]);
   while (answers.size < 4) {
-    const offset = Math.floor(Math.random() * 6) - 3;
+    const offset = Math.floor(Math.random() * 8) - 4;
     const candidate = Math.max(0, answer + offset);
     answers.add(candidate);
   }
@@ -66,15 +119,15 @@ const buildAnswers = (answer, max) => {
 };
 
 const newQuestion = () => {
-  const max = difficultyRanges[difficultySelect.value];
-  const numberOne = pickNumber(max);
-  const numberTwo = pickNumber(max);
+  const range = difficultyRanges[difficultySelect.value];
+  const numberOne = pickNumber(range.min, range.max);
+  const numberTwo = pickNumber(range.min, range.max);
 
   firstNumber.textContent = numberOne;
   secondNumber.textContent = numberTwo;
-  correctAnswer = numberOne + numberTwo;
+  correctAnswer = numberOne * numberTwo;
 
-  buildAnswers(correctAnswer, max);
+  buildAnswers(correctAnswer, range.max * range.max);
   clearFeedback();
 };
 
@@ -83,15 +136,15 @@ const handleAnswer = (value, button) => {
   buttons.forEach((btn) => btn.classList.remove("correct", "wrong"));
 
   if (value === correctAnswer) {
-    score += 10;
+    score += 15;
     streak += 1;
     button.classList.add("correct");
-    announceFeedback("Fantastic! You got it right!", "correct");
+    announceFeedback("Bloom-tastic! You got it right!", "correct");
   } else {
-    score = Math.max(0, score - 2);
+    score = Math.max(0, score - 5);
     streak = 0;
     button.classList.add("wrong");
-    announceFeedback(`Almost! The answer was ${correctAnswer}.`, "wrong");
+    announceFeedback(`Almost! The bloom was ${correctAnswer}.`, "wrong");
   }
 
   updateScoreboard();

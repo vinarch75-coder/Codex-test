@@ -3,26 +3,26 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Addition Adventure</title>
+    <title>Flower Power Multiplication</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="page">
       <section class="card">
         <header class="card__header">
-          <p class="tag">Math Quest for Kids</p>
-          <h1>Addition Adventure</h1>
+          <p class="tag">Blooming Math Quest</p>
+          <h1>Flower Power Multiplication</h1>
           <p>
-            Help Captain Plus collect stars by solving addition puzzles! Choose the
-            right answer to earn points.
+            Grow a magical garden by solving multiplication blooms. Choose the
+            right answer to earn petals and unlock prize levels.
           </p>
         </header>
 
         <section class="game">
-          <div class="mascot" aria-hidden="true">🚀</div>
+          <div class="mascot" aria-hidden="true">🌸</div>
           <div class="question-box" aria-live="polite">
             <span id="firstNumber">5</span>
-            <span class="operator">+</span>
+            <span class="operator">×</span>
             <span id="secondNumber">3</span>
             <span class="operator">=</span>
             <span class="question-mark">?</span>
@@ -36,9 +36,9 @@
             <label class="control">
               Difficulty
               <select id="difficultySelect">
-                <option value="easy">Easy (0-10)</option>
-                <option value="medium" selected>Medium (0-20)</option>
-                <option value="hard">Hard (0-50)</option>
+                <option value="easy">Sprout (2-12)</option>
+                <option value="medium" selected>Bloom (4-18)</option>
+                <option value="hard">Garden (6-25)</option>
               </select>
             </label>
             <button id="newQuestion" class="secondary">New Puzzle</button>
@@ -48,16 +48,31 @@
         <footer class="card__footer">
           <div class="scoreboard">
             <div>
-              <span class="label">Score</span>
+              <span class="label">Petal Points</span>
               <span id="score">0</span>
             </div>
             <div>
-              <span class="label">Streak</span>
+              <span class="label">Combo</span>
               <span id="streak">0</span>
             </div>
             <div>
-              <span class="label">Stars</span>
-              <span id="stars">⭐️⭐️⭐️</span>
+              <span class="label">Petals</span>
+              <span id="petals">🌺🌺🌺</span>
+            </div>
+            <div>
+              <span class="label">Level</span>
+              <span id="levelName">Seedling Starter</span>
+            </div>
+          </div>
+          <div class="level-progress" aria-live="polite">
+            <div class="level-progress__bar">
+              <div class="level-progress__fill" id="levelProgressFill"></div>
+            </div>
+            <div class="level-progress__text" id="levelProgressText">
+              0 / 60 points to reach Petal Pathfinder
+            </div>
+            <div class="level-progress__prize" id="levelPrize">
+              Prize: Sticker Pack
             </div>
           </div>
         </footer>
