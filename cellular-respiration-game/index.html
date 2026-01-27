@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Cellular Respiration Quest</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="page">
+    <header class="hero">
+      <div>
+        <p class="eyebrow">Medical Student Learning Game</p>
+        <h1>Cellular Respiration Quest</h1>
+        <p class="subtitle">
+          Practice the sequence, locations, and outputs of cellular respiration by building the
+          pathway in order. Earn ATP, clear checkpoints, and answer rapid-fire clinical ties.
+        </p>
+      </div>
+      <div class="stats">
+        <div>
+          <span class="label">ATP Bank</span>
+          <span id="atpTotal" class="value">0</span>
+        </div>
+        <div>
+          <span class="label">Checkpoints</span>
+          <span id="checkpointTotal" class="value">0 / 4</span>
+        </div>
+        <div>
+          <span class="label">Attempts</span>
+          <span id="attempts" class="value">0</span>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="board">
+        <div class="column">
+          <h2>Pathway Cards</h2>
+          <p class="helper">Click a card to add it to the pathway in order.</p>
+          <div id="cardPool" class="card-pool" aria-live="polite"></div>
+          <button id="resetButton" class="ghost">Reset Cards</button>
+        </div>
+        <div class="column">
+          <h2>Build the Pathway</h2>
+          <p class="helper">Fill all four stages. You can remove a card by clicking it.</p>
+          <div id="pathway" class="pathway" aria-live="polite"></div>
+          <button id="checkButton">Check Pathway</button>
+          <div id="feedback" class="feedback" role="status" aria-live="polite"></div>
+        </div>
+      </section>
+
+      <section class="questions">
+        <h2>Rapid Clinical Tie-Ins</h2>
+        <p class="helper">Answer a quick prompt after each correct pathway to earn bonus ATP.</p>
+        <div id="questionCard" class="question-card">
+          <p class="question" id="questionText">Build the pathway to unlock questions.</p>
+          <div id="answerButtons" class="answers"></div>
+        </div>
+      </section>
+
+      <section class="summary">
+        <h2>Reference Cheat Sheet</h2>
+        <div class="grid">
+          <article>
+            <h3>Glycolysis</h3>
+            <p>Location: Cytosol. Output: 2 ATP (net), 2 NADH, 2 pyruvate.</p>
+          </article>
+          <article>
+            <h3>Pyruvate Oxidation</h3>
+            <p>Location: Mitochondrial matrix. Output: 2 NADH, 2 acetyl-CoA, CO₂.</p>
+          </article>
+          <article>
+            <h3>TCA Cycle</h3>
+            <p>Location: Mitochondrial matrix. Output: 2 ATP (GTP), 6 NADH, 2 FADH₂.</p>
+          </article>
+          <article>
+            <h3>ETC &amp; Ox Phos</h3>
+            <p>Location: Inner mitochondrial membrane. Output: ~26-28 ATP, H₂O.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
