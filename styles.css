@@ -1,7 +1,7 @@
 :root {
   color-scheme: light;
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  background: #fff5fb;
+  background: #dbeafe;
   color: #2c2b3f;
 }
 
@@ -15,7 +15,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: radial-gradient(circle at top, #ffe6f3, #fff5fb 55%, #e2f7f0);
+  background: #dbeafe;
 }
 
 .page {
