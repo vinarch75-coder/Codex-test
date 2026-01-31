@@ -1,8 +1,8 @@
 :root {
   color-scheme: light;
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  background: #dbeafe;
-  color: #2c2b3f;
+  background: #ffd6ea;
+  color: #3a1d2f;
 }
 
 * {
@@ -15,18 +15,18 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #dbeafe;
+  background: radial-gradient(circle at top, #ffe3f1, #ffc4de 60%, #ffb1d6);
 }
 
 .page {
-  width: min(960px, 92vw);
+  width: min(1020px, 92vw);
   padding: 24px;
 }
 
 .card {
-  background: #ffffff;
-  border-radius: 26px;
-  box-shadow: 0 20px 45px rgba(138, 79, 116, 0.16);
+  background: #fff7fb;
+  border-radius: 28px;
+  box-shadow: 0 22px 46px rgba(120, 52, 84, 0.18);
   padding: 32px;
   display: flex;
   flex-direction: column;
@@ -35,12 +35,12 @@ body {
 
 .card__header h1 {
   margin: 6px 0 8px;
-  font-size: clamp(2.2rem, 3vw, 2.8rem);
+  font-size: clamp(2.2rem, 3vw, 2.9rem);
 }
 
 .card__header p {
   margin: 0;
-  color: #5a5a6d;
+  color: #6a4a5b;
   font-size: 1.05rem;
 }
 
@@ -48,8 +48,8 @@ body {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  background: #ffd6f1;
-  color: #7c2b59;
+  background: #ff8fc4;
+  color: #fff5fb;
   padding: 4px 12px;
   border-radius: 999px;
   font-weight: 700;
@@ -58,85 +58,31 @@ body {
 }
 
 .game {
-  background: #fff0f8;
-  border-radius: 22px;
+  background: #ffe9f5;
+  border-radius: 24px;
   padding: 28px;
   display: grid;
   gap: 20px;
-  justify-items: center;
-  position: relative;
-  overflow: hidden;
 }
 
-.mascot {
-  position: absolute;
-  top: 14px;
-  right: 20px;
-  font-size: 2.4rem;
-}
-
-.question-box {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 700;
-  display: flex;
-  gap: 12px;
-  align-items: center;
-  background: #ffffff;
-  padding: 14px 24px;
-  border-radius: 16px;
-  box-shadow: 0 8px 20px rgba(160, 102, 140, 0.18);
-}
-
-.operator {
-  color: #ff6fae;
-}
-
-.question-mark {
-  color: #37b685;
-}
-
-.answer-grid {
+.game__top {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 18px;
+}
+
+.scoreboard {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
   gap: 14px;
-  width: min(520px, 100%);
-}
-
-.answer-button {
-  border: none;
-  border-radius: 16px;
-  padding: 14px 18px;
-  font-size: 1.25rem;
   font-weight: 700;
-  background: #ffffff;
-  color: #2c2b3f;
-  box-shadow: 0 8px 18px rgba(160, 102, 140, 0.15);
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-.answer-button:hover,
-.answer-button:focus-visible {
-  transform: translateY(-3px);
-  box-shadow: 0 12px 22px rgba(160, 102, 140, 0.2);
-  outline: 3px solid rgba(255, 111, 174, 0.4);
-}
-
-.answer-button.correct {
-  background: #dbf5e6;
-  color: #1f6b39;
-}
-
-.answer-button.wrong {
-  background: #ffe1eb;
-  color: #8b1c1c;
-}
-
-.feedback {
-  min-height: 32px;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #3c3b5c;
+.label {
+  display: block;
+  font-size: 0.85rem;
+  color: #7a5c6a;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .controls {
@@ -144,14 +90,13 @@ body {
   flex-wrap: wrap;
   gap: 12px;
   align-items: center;
-  justify-content: center;
 }
 
 .control {
   display: grid;
   gap: 6px;
   font-weight: 600;
-  color: #4b4a66;
+  color: #5a4050;
 }
 
 select,
@@ -161,91 +106,122 @@ button {
 
 select {
   border-radius: 12px;
-  border: 2px solid #f3b7d6;
+  border: 2px solid #ffb1d6;
   padding: 8px 12px;
   font-size: 1rem;
-  background: #ffffff;
+  background: #fff;
 }
 
-button.secondary {
+button {
   border: none;
   border-radius: 12px;
   padding: 10px 16px;
   font-size: 1rem;
   font-weight: 700;
-  background: #ff6fae;
-  color: #ffffff;
   cursor: pointer;
-  box-shadow: 0 8px 16px rgba(255, 111, 174, 0.25);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
 }
 
-button.secondary:hover,
-button.secondary:focus-visible {
+button.primary {
+  background: #ff5fa7;
+  color: #fff;
+  box-shadow: 0 10px 18px rgba(255, 95, 167, 0.3);
+}
+
+button.secondary {
+  background: #ffd1e7;
+  color: #7a264c;
+}
+
+button:hover,
+button:focus-visible {
   transform: translateY(-2px);
+  outline: 3px solid rgba(255, 111, 174, 0.35);
 }
 
-.card__footer {
-  font-size: 1rem;
-  color: #4b4a66;
-}
-
-.scoreboard {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 24px;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.level-progress {
-  margin-top: 18px;
-  display: grid;
-  gap: 10px;
-  font-weight: 600;
-  color: #6b4b5f;
-}
-
-.level-progress__bar {
-  width: 100%;
-  height: 12px;
-  border-radius: 999px;
-  background: #f9d8e8;
+.play-area {
+  position: relative;
+  height: min(420px, 60vh);
+  border-radius: 22px;
+  background: linear-gradient(180deg, #ffffff 0%, #ffe1f0 100%);
   overflow: hidden;
+  border: 2px dashed rgba(255, 95, 167, 0.35);
 }
 
-.level-progress__fill {
-  height: 100%;
-  width: 0%;
-  border-radius: 999px;
-  background: linear-gradient(90deg, #ff6fae, #37b685);
-  transition: width 0.3s ease;
+.play-area__message {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #8b4766;
+  text-align: center;
+  padding: 16px;
+  pointer-events: none;
 }
 
-.level-progress__text {
-  font-size: 0.95rem;
+.bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #fff6fb 5%, #ff7fbd 45%, #ff4f9a 100%);
+  box-shadow: 0 12px 20px rgba(255, 79, 154, 0.25);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-weight: 700;
+  text-shadow: 0 2px 4px rgba(122, 38, 76, 0.4);
+  animation: floatUp linear forwards;
 }
 
-.level-progress__prize {
-  font-size: 1rem;
-  color: #3a6b5c;
+.bubble::after {
+  content: "";
+  position: absolute;
+  top: 18%;
+  left: 20%;
+  width: 32%;
+  height: 32%;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.7);
 }
 
-.label {
-  display: block;
-  font-size: 0.85rem;
-  color: #6b6a80;
+@keyframes floatUp {
+  from {
+    transform: translateY(30px);
+    opacity: 0.2;
+  }
+  to {
+    transform: translateY(-160px);
+    opacity: 1;
+  }
+}
+
+.tips h2 {
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+.tips ul {
+  margin: 0;
+  padding-left: 18px;
+  color: #6a4a5b;
+}
+
+.tips li {
+  margin-bottom: 6px;
 }
 
 @media (max-width: 700px) {
   .card {
-    padding: 24px;
+    padding: 22px;
   }
 
   .game {
     padding: 20px;
   }
 
-  .scoreboard {
-    gap: 16px;
+  .play-area {
+    height: 360px;
   }
 }

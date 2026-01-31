@@ -3,77 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Flower Power Multiplication</title>
+    <title>Pink Bubble Pop</title>
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
     <main class="page">
       <section class="card">
         <header class="card__header">
-          <p class="tag">Blooming Math Quest</p>
-          <h1>Flower Power Multiplication</h1>
+          <p class="tag">Bubble Pop Party</p>
+          <h1>Pink Bubble Pop</h1>
           <p>
-            Grow a magical garden by solving multiplication blooms. Choose the
-            right answer to earn petals and unlock prize levels.
+            Click the floating bubbles before they drift away. Pop as many as you
+            can before time runs out!
           </p>
         </header>
 
         <section class="game">
-          <div class="mascot" aria-hidden="true">🌸</div>
-          <div class="question-box" aria-live="polite">
-            <span id="firstNumber">5</span>
-            <span class="operator">×</span>
-            <span id="secondNumber">3</span>
-            <span class="operator">=</span>
-            <span class="question-mark">?</span>
+          <div class="game__top">
+            <div class="scoreboard">
+              <div>
+                <span class="label">Time Left</span>
+                <span id="timeLeft">60</span>s
+              </div>
+              <div>
+                <span class="label">Score</span>
+                <span id="score">0</span>
+              </div>
+              <div>
+                <span class="label">Streak</span>
+                <span id="streak">0</span>
+              </div>
+              <div>
+                <span class="label">Misses</span>
+                <span id="misses">0</span>
+              </div>
+            </div>
+            <div class="controls">
+              <label class="control">
+                Difficulty
+                <select id="difficultySelect">
+                  <option value="chill">Chill</option>
+                  <option value="party" selected>Party</option>
+                  <option value="frenzy">Frenzy</option>
+                </select>
+              </label>
+              <button id="startGame" class="primary">Start Game</button>
+              <button id="resetGame" class="secondary">Reset</button>
+            </div>
           </div>
 
-          <div class="answer-grid" id="answerGrid" role="list"></div>
-
-          <div class="feedback" id="feedback" role="status" aria-live="polite"></div>
-
-          <div class="controls">
-            <label class="control">
-              Difficulty
-              <select id="difficultySelect">
-                <option value="easy">Sprout (2-12)</option>
-                <option value="medium" selected>Bloom (4-18)</option>
-                <option value="hard">Garden (6-25)</option>
-              </select>
-            </label>
-            <button id="newQuestion" class="secondary">New Puzzle</button>
+          <div class="play-area" id="playArea" aria-live="polite">
+            <div class="play-area__message" id="statusMessage">
+              Press Start to begin popping bubbles!
+            </div>
           </div>
         </section>
 
         <footer class="card__footer">
-          <div class="scoreboard">
-            <div>
-              <span class="label">Petal Points</span>
-              <span id="score">0</span>
-            </div>
-            <div>
-              <span class="label">Combo</span>
-              <span id="streak">0</span>
-            </div>
-            <div>
-              <span class="label">Petals</span>
-              <span id="petals">🌺🌺🌺</span>
-            </div>
-            <div>
-              <span class="label">Level</span>
-              <span id="levelName">Seedling Starter</span>
-            </div>
-          </div>
-          <div class="level-progress" aria-live="polite">
-            <div class="level-progress__bar">
-              <div class="level-progress__fill" id="levelProgressFill"></div>
-            </div>
-            <div class="level-progress__text" id="levelProgressText">
-              0 / 60 points to reach Petal Pathfinder
-            </div>
-            <div class="level-progress__prize" id="levelPrize">
-              Prize: Sticker Pack
-            </div>
+          <div class="tips">
+            <h2>How to Play</h2>
+            <ul>
+              <li>Click or tap bubbles to pop them.</li>
+              <li>Build streaks to earn bonus points.</li>
+              <li>Missed bubbles reset your streak.</li>
+            </ul>
           </div>
         </footer>
       </section>
