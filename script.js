@@ -1,161 +1,194 @@
-const firstNumber = document.getElementById("firstNumber");
-const secondNumber = document.getElementById("secondNumber");
-const answerGrid = document.getElementById("answerGrid");
-const feedback = document.getElementById("feedback");
-const scoreValue = document.getElementById("score");
-const streakValue = document.getElementById("streak");
-const petalsValue = document.getElementById("petals");
-const newQuestionButton = document.getElementById("newQuestion");
+const timeLeftDisplay = document.getElementById("timeLeft");
+const scoreDisplay = document.getElementById("score");
+const streakDisplay = document.getElementById("streak");
+const missesDisplay = document.getElementById("misses");
 const difficultySelect = document.getElementById("difficultySelect");
-const levelName = document.getElementById("levelName");
-const levelProgressFill = document.getElementById("levelProgressFill");
-const levelProgressText = document.getElementById("levelProgressText");
-const levelPrize = document.getElementById("levelPrize");
+const startButton = document.getElementById("startGame");
+const resetButton = document.getElementById("resetGame");
+const playArea = document.getElementById("playArea");
+const statusMessage = document.getElementById("statusMessage");
 
-const difficultyRanges = {
-  easy: { min: 2, max: 12 },
-  medium: { min: 4, max: 18 },
-  hard: { min: 6, max: 25 },
+const difficultySettings = {
+  chill: { spawnRate: 1400, lifetime: 3600, maxBubbles: 6 },
+  party: { spawnRate: 1000, lifetime: 3000, maxBubbles: 8 },
+  frenzy: { spawnRate: 750, lifetime: 2400, maxBubbles: 10 },
 };
 
-const levels = [
-  { name: "Seedling Starter", threshold: 0, prize: "Sticker Pack" },
-  { name: "Petal Pathfinder", threshold: 60, prize: "Glitter Gel Pen" },
-  { name: "Bloom Builder", threshold: 140, prize: "Floral Notebook" },
-  { name: "Garden Star", threshold: 220, prize: "Flower Crown Kit" },
-  {
-    name: "Queen of the Garden",
-    threshold: 320,
-    prize: "Big Prize: VIP Garden Party",
-  },
-];
-
-let score = 0;
-let streak = 0;
-let correctAnswer = 0;
-
-const pickNumber = (min, max) =>
-  Math.floor(Math.random() * (max - min + 1)) + min;
-
-const setPetals = () => {
-  const petals = Math.min(4, Math.max(1, Math.floor(streak / 3) + 1));
-  petalsValue.textContent = "🌺".repeat(petals);
-};
-
-const findLevelIndex = () => {
-  for (let index = levels.length - 1; index >= 0; index -= 1) {
-    if (score >= levels[index].threshold) {
-      return index;
-    }
-  }
-  return 0;
-};
-
-const updateLevelProgress = () => {
-  const levelIndex = findLevelIndex();
-  const currentLevel = levels[levelIndex];
-  const nextLevel = levels[levelIndex + 1];
-
-  levelName.textContent = currentLevel.name;
-  levelPrize.textContent = `Prize: ${currentLevel.prize}`;
-
-  if (!nextLevel) {
-    levelProgressFill.style.width = "100%";
-    levelProgressText.textContent =
-      "You reached the top level! Celebrate your big prize!";
-    return;
-  }
-
-  const levelSpan = nextLevel.threshold - currentLevel.threshold;
-  const progress = Math.max(
-    0,
-    Math.min(levelSpan, score - currentLevel.threshold)
-  );
-  const progressPercent = Math.round((progress / levelSpan) * 100);
-  levelProgressFill.style.width = `${progressPercent}%`;
-  const remaining = nextLevel.threshold - score;
-  levelProgressText.textContent = `${progress} / ${levelSpan} points to reach ${nextLevel.name} (${remaining} to go)`;
+const gameState = {
+  timeLeft: 60,
+  score: 0,
+  streak: 0,
+  misses: 0,
+  isRunning: false,
+  spawnTimer: null,
+  countdownTimer: null,
 };
 
 const updateScoreboard = () => {
-  scoreValue.textContent = score;
-  streakValue.textContent = streak;
-  setPetals();
-  updateLevelProgress();
+  timeLeftDisplay.textContent = gameState.timeLeft;
+  scoreDisplay.textContent = gameState.score;
+  streakDisplay.textContent = gameState.streak;
+  missesDisplay.textContent = gameState.misses;
 };
 
-const clearFeedback = () => {
-  feedback.textContent = "";
+const clearBubbles = () => {
+  playArea.querySelectorAll(".bubble").forEach((bubble) => bubble.remove());
 };
 
-const announceFeedback = (message, status) => {
-  feedback.textContent = message;
-  feedback.dataset.status = status;
+const showMessage = (message) => {
+  statusMessage.textContent = message;
+  statusMessage.hidden = false;
 };
 
-const createAnswerButton = (value) => {
-  const button = document.createElement("button");
-  button.className = "answer-button";
-  button.textContent = value;
-  button.type = "button";
-  button.setAttribute("role", "listitem");
-  button.addEventListener("click", () => handleAnswer(value, button));
-  return button;
+const hideMessage = () => {
+  statusMessage.hidden = true;
 };
 
-const buildAnswers = (answer, max) => {
-  const answers = new Set([answer]);
-  while (answers.size < 4) {
-    const offset = Math.floor(Math.random() * 8) - 4;
-    const candidate = Math.max(0, answer + offset);
-    answers.add(candidate);
+const randomBetween = (min, max) =>
+  Math.floor(Math.random() * (max - min + 1)) + min;
+
+const createBubble = () => {
+  if (!gameState.isRunning) {
+    return;
   }
 
-  const shuffled = Array.from(answers).sort(() => Math.random() - 0.5);
-  answerGrid.innerHTML = "";
-  shuffled.forEach((value) => {
-    answerGrid.appendChild(createAnswerButton(value));
+  const { lifetime, maxBubbles } =
+    difficultySettings[difficultySelect.value];
+
+  if (playArea.querySelectorAll(".bubble").length >= maxBubbles) {
+    return;
+  }
+
+  const bubble = document.createElement("button");
+  bubble.type = "button";
+  bubble.className = "bubble";
+
+  const size = randomBetween(46, 90);
+  const maxX = playArea.clientWidth - size;
+  const maxY = playArea.clientHeight - size;
+  const x = randomBetween(0, Math.max(0, maxX));
+  const y = randomBetween(0, Math.max(0, maxY));
+
+  bubble.style.width = `${size}px`;
+  bubble.style.height = `${size}px`;
+  bubble.style.left = `${x}px`;
+  bubble.style.top = `${y}px`;
+  bubble.style.animationDuration = `${lifetime}ms`;
+  bubble.textContent = "+1";
+
+  const popBubble = () => {
+    if (!bubble.isConnected) {
+      return;
+    }
+    bubble.remove();
+    gameState.score += 10 + gameState.streak * 2;
+    gameState.streak += 1;
+    updateScoreboard();
+  };
+
+  bubble.addEventListener("click", popBubble);
+
+  const missTimeout = window.setTimeout(() => {
+    if (!bubble.isConnected) {
+      return;
+    }
+    bubble.remove();
+    gameState.misses += 1;
+    gameState.streak = 0;
+    updateScoreboard();
+  }, lifetime + 400);
+
+  bubble.addEventListener("animationend", () => {
+    window.clearTimeout(missTimeout);
+    if (bubble.isConnected) {
+      bubble.remove();
+      gameState.misses += 1;
+      gameState.streak = 0;
+      updateScoreboard();
+    }
   });
+
+  playArea.appendChild(bubble);
 };
 
-const newQuestion = () => {
-  const range = difficultyRanges[difficultySelect.value];
-  const numberOne = pickNumber(range.min, range.max);
-  const numberTwo = pickNumber(range.min, range.max);
-
-  firstNumber.textContent = numberOne;
-  secondNumber.textContent = numberTwo;
-  correctAnswer = numberOne * numberTwo;
-
-  buildAnswers(correctAnswer, range.max * range.max);
-  clearFeedback();
+const startSpawning = () => {
+  const { spawnRate } = difficultySettings[difficultySelect.value];
+  gameState.spawnTimer = window.setInterval(createBubble, spawnRate);
 };
 
-const handleAnswer = (value, button) => {
-  const buttons = answerGrid.querySelectorAll(".answer-button");
-  buttons.forEach((btn) => btn.classList.remove("correct", "wrong"));
+const stopSpawning = () => {
+  if (gameState.spawnTimer) {
+    window.clearInterval(gameState.spawnTimer);
+    gameState.spawnTimer = null;
+  }
+};
 
-  if (value === correctAnswer) {
-    score += 15;
-    streak += 1;
-    button.classList.add("correct");
-    announceFeedback("Bloom-tastic! You got it right!", "correct");
-  } else {
-    score = Math.max(0, score - 5);
-    streak = 0;
-    button.classList.add("wrong");
-    announceFeedback(`Almost! The bloom was ${correctAnswer}.`, "wrong");
+const startCountdown = () => {
+  gameState.countdownTimer = window.setInterval(() => {
+    gameState.timeLeft -= 1;
+    updateScoreboard();
+    if (gameState.timeLeft <= 0) {
+      endGame();
+    }
+  }, 1000);
+};
+
+const stopCountdown = () => {
+  if (gameState.countdownTimer) {
+    window.clearInterval(gameState.countdownTimer);
+    gameState.countdownTimer = null;
+  }
+};
+
+const startGame = () => {
+  if (gameState.isRunning) {
+    return;
   }
 
+  gameState.isRunning = true;
+  gameState.timeLeft = 60;
+  gameState.score = 0;
+  gameState.streak = 0;
+  gameState.misses = 0;
   updateScoreboard();
+  clearBubbles();
+  hideMessage();
+
+  startSpawning();
+  startCountdown();
 };
 
-newQuestionButton.addEventListener("click", newQuestion);
-difficultySelect.addEventListener("change", () => {
-  streak = 0;
+const endGame = () => {
+  gameState.isRunning = false;
+  stopSpawning();
+  stopCountdown();
+  clearBubbles();
+  showMessage(`Time's up! Final score: ${gameState.score}`);
+};
+
+const resetGame = () => {
+  gameState.isRunning = false;
+  stopSpawning();
+  stopCountdown();
+  clearBubbles();
+  gameState.timeLeft = 60;
+  gameState.score = 0;
+  gameState.streak = 0;
+  gameState.misses = 0;
   updateScoreboard();
-  newQuestion();
+  showMessage("Press Start to begin popping bubbles!");
+};
+
+startButton.addEventListener("click", startGame);
+resetButton.addEventListener("click", resetGame);
+
+difficultySelect.addEventListener("change", () => {
+  if (!gameState.isRunning) {
+    return;
+  }
+  stopSpawning();
+  startSpawning();
 });
 
 updateScoreboard();
-newQuestion();
+showMessage("Press Start to begin popping bubbles!");
