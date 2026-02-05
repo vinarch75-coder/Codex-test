@@ -1,8 +1,7 @@
 :root {
-  color-scheme: light;
   font-family: "Trebuchet MS", "Segoe UI", sans-serif;
-  background: #ffd6ea;
-  color: #3a1d2f;
+  color: #f5f8ff;
+  background: #0f1330;
 }
 
 * {
@@ -12,91 +11,132 @@
 body {
   margin: 0;
   min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: radial-gradient(circle at top, #ffe3f1, #ffc4de 60%, #ffb1d6);
+  display: grid;
+  place-items: center;
+  background: radial-gradient(circle at 20% 20%, #25306f, #0f1330 60%, #090b1e);
 }
 
-.page {
-  width: min(1020px, 92vw);
-  padding: 24px;
+.app {
+  width: min(980px, 94vw);
+  padding: 22px;
 }
 
-.card {
-  background: #fff7fb;
-  border-radius: 28px;
-  box-shadow: 0 22px 46px rgba(120, 52, 84, 0.18);
-  padding: 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-.card__header h1 {
-  margin: 6px 0 8px;
-  font-size: clamp(2.2rem, 3vw, 2.9rem);
-}
-
-.card__header p {
-  margin: 0;
-  color: #6a4a5b;
-  font-size: 1.05rem;
-}
-
-.tag {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: #ff8fc4;
-  color: #fff5fb;
-  padding: 4px 12px;
-  border-radius: 999px;
-  font-weight: 700;
-  font-size: 0.85rem;
-  margin: 0;
-}
-
-.game {
-  background: #ffe9f5;
-  border-radius: 24px;
-  padding: 28px;
+.panel {
+  background: linear-gradient(160deg, #161b43, #1d2560);
+  border: 2px solid #5762b5;
+  border-radius: 26px;
+  padding: 26px;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
   display: grid;
   gap: 20px;
 }
 
-.game__top {
-  display: grid;
-  gap: 18px;
+.tag {
+  display: inline-block;
+  margin: 0;
+  padding: 5px 12px;
+  border-radius: 999px;
+  font-weight: 700;
+  background: #3d4bb4;
 }
 
-.scoreboard {
+.hero h1 {
+  margin: 8px 0 10px;
+  font-size: clamp(2rem, 4vw, 2.8rem);
+}
+
+.hero p {
+  margin: 0;
+  color: #c9d2ff;
+}
+
+.hud {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.hud > div {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(183, 196, 255, 0.35);
+  border-radius: 12px;
+  padding: 9px 10px;
+  display: grid;
+  gap: 2px;
   font-weight: 700;
 }
 
 .label {
-  display: block;
-  font-size: 0.85rem;
-  color: #7a5c6a;
+  color: #aebaf9;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
+  font-size: 0.74rem;
+}
+
+.arena {
+  background: #0f1538;
+  border: 2px dashed #6573d4;
+  border-radius: 20px;
+  padding: 22px;
+  display: grid;
+  gap: 18px;
+}
+
+.round {
+  margin: 0;
+  color: #ffd877;
+  font-weight: 700;
+}
+
+.question-wrap h2 {
+  margin: 10px 0;
+  font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+}
+
+.hint {
+  margin: 0;
+  color: #c9d2ff;
+}
+
+.choices {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 10px;
+}
+
+.choice {
+  background: #2b3a95;
+  border: 2px solid #7f8fff;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 12px;
+  cursor: pointer;
+}
+
+.choice:hover,
+.choice:focus-visible,
+.primary:hover,
+.secondary:hover {
+  transform: translateY(-2px);
+}
+
+.choice.correct {
+  background: #228b58;
+  border-color: #8affc5;
+}
+
+.choice.wrong {
+  background: #8f2e4f;
+  border-color: #ff90b0;
 }
 
 .controls {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
-  align-items: center;
-}
-
-.control {
-  display: grid;
-  gap: 6px;
-  font-weight: 600;
-  color: #5a4050;
+  gap: 10px;
+  align-items: end;
 }
 
 select,
@@ -105,123 +145,53 @@ button {
 }
 
 select {
-  border-radius: 12px;
-  border: 2px solid #ffb1d6;
-  padding: 8px 12px;
-  font-size: 1rem;
-  background: #fff;
+  border-radius: 10px;
+  border: 2px solid #6f7ddd;
+  background: #1f2868;
+  color: #fff;
+  padding: 8px 10px;
 }
 
 button {
   border: none;
-  border-radius: 12px;
-  padding: 10px 16px;
-  font-size: 1rem;
-  font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
-}
-
-button.primary {
-  background: #ff5fa7;
-  color: #fff;
-  box-shadow: 0 10px 18px rgba(255, 95, 167, 0.3);
-}
-
-button.secondary {
-  background: #ffd1e7;
-  color: #7a264c;
-}
-
-button:hover,
-button:focus-visible {
-  transform: translateY(-2px);
-  outline: 3px solid rgba(255, 111, 174, 0.35);
-}
-
-.play-area {
-  position: relative;
-  height: min(420px, 60vh);
-  border-radius: 22px;
-  background: linear-gradient(180deg, #ffffff 0%, #ffe1f0 100%);
-  overflow: hidden;
-  border: 2px dashed rgba(255, 95, 167, 0.35);
-}
-
-.play-area__message {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: #8b4766;
-  text-align: center;
-  padding: 16px;
-  pointer-events: none;
-}
-
-.bubble {
-  position: absolute;
-  border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #fff6fb 5%, #ff7fbd 45%, #ff4f9a 100%);
-  box-shadow: 0 12px 20px rgba(255, 79, 154, 0.25);
-  cursor: pointer;
-  display: grid;
-  place-items: center;
+  border-radius: 10px;
+  padding: 10px 14px;
   color: #fff;
   font-weight: 700;
-  text-shadow: 0 2px 4px rgba(122, 38, 76, 0.4);
-  animation: floatUp linear forwards;
+  cursor: pointer;
+  transition: transform 0.16s ease;
 }
 
-.bubble::after {
-  content: "";
-  position: absolute;
-  top: 18%;
-  left: 20%;
-  width: 32%;
-  height: 32%;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.7);
+.primary {
+  background: #ff7a2a;
 }
 
-@keyframes floatUp {
-  from {
-    transform: translateY(30px);
-    opacity: 0.2;
-  }
-  to {
-    transform: translateY(-160px);
-    opacity: 1;
-  }
+.secondary {
+  background: #5d68bb;
 }
 
-.tips h2 {
-  margin: 0 0 10px;
-  font-size: 1.2rem;
-}
-
-.tips ul {
+.feedback {
   margin: 0;
+  min-height: 1.3em;
+  font-weight: 700;
+}
+
+.badges h3 {
+  margin: 0;
+}
+
+.badges ul {
+  margin: 8px 0 0;
   padding-left: 18px;
-  color: #6a4a5b;
+  color: #d7deff;
 }
 
-.tips li {
-  margin-bottom: 6px;
-}
-
-@media (max-width: 700px) {
-  .card {
-    padding: 22px;
+@media (max-width: 640px) {
+  .panel {
+    padding: 18px;
   }
 
-  .game {
-    padding: 20px;
-  }
-
-  .play-area {
-    height: 360px;
+  .arena {
+    padding: 16px;
   }
 }
